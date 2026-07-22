@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -14,6 +15,13 @@ const navLinks = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  // Close the drawer and route to /login. Used by every CTA in the header.
+  const goToLogin = () => {
+    setIsOpen(false);
+    router.push("/login");
+  };
 
   // Prevent scrolling when menu is open
   useEffect(() => {
@@ -52,9 +60,12 @@ export default function Header() {
         {/* Right Actions */}
         <div className="flex items-center gap-4 z-50 relative">
           {/* Tablet+ Sign In Button (hidden on mobile, and hidden when menu is open) */}
-          <button className={`hidden md:inline-flex items-center justify-center px-4 py-1.5 text-sm font-semibold text-bg1 bg-bg0 border-2 border-bg0 hover:bg-transparent hover:text-bg0 transition-all duration-300 ${
-            isOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-          }`}>
+          <button
+            onClick={goToLogin}
+            className={`hidden md:inline-flex items-center justify-center px-4 py-1.5 text-sm font-semibold text-bg1 bg-bg0 border-2 border-bg0 hover:bg-transparent hover:text-bg0 transition-all duration-300 ${
+              isOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+          >
             Sign In
           </button>
 
@@ -97,10 +108,16 @@ export default function Header() {
 
           {/* Bottom Actions */}
           <div className="mt-8 pt-6 flex flex-col gap-3 border-t border-bg0/20">
-            <button className="w-full py-3 text-center text-base font-semibold text-bg0 bg-transparent border-2 border-bg0 hover:bg-bg0 hover:text-bg1 transition-colors shadow-sm">
+            <button
+              onClick={goToLogin}
+              className="w-full py-3 text-center text-base font-semibold text-bg0 bg-transparent border-2 border-bg0 hover:bg-bg0 hover:text-bg1 transition-colors shadow-sm"
+            >
               Sign In
             </button>
-            <button className="w-full py-3 text-center text-base font-bold text-bg1 bg-bg0 hover:bg-bg0/90 transition-all duration-300 shadow-lg hover:-translate-y-0.5">
+            <button
+              onClick={goToLogin}
+              className="w-full py-3 text-center text-base font-bold text-bg1 bg-bg0 hover:bg-bg0/90 transition-all duration-300 shadow-lg hover:-translate-y-0.5"
+            >
               Get Started
             </button>
           </div>
