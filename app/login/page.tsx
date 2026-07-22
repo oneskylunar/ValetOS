@@ -73,6 +73,7 @@ export default function LoginPage() {
       window.localStorage.setItem(TOKEN_KEY, body.data.token);
       window.localStorage.setItem(USER_KEY, JSON.stringify(body.data.user));
       setUser(body.data.user);
+      router.push("/home");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Network error");
     } finally {
@@ -113,7 +114,7 @@ export default function LoginPage() {
 
         <div className="bg-bg1 text-bg0 p-8 shadow-2xl border border-bg0/20">
           {user ? (
-            <SignedInPanel user={user} onSignOut={handleSignOut} onHome={() => router.push("/")} />
+            <SignedInPanel user={user} onSignOut={handleSignOut} onHome={() => router.push("/home")} />
           ) : (
             <SignInForm
               email={email}
