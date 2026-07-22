@@ -4,28 +4,32 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/app/lib/motion";
 
 export default function HeroSection() {
+  const router = useRouter();
+
+  const goToLogin = () => router.push("/login");
+
   return (
-    <motion.section 
+    <motion.section
       className="relative flex flex-col items-center justify-center text-center px-6 pt-32 pb-8 bg-bg0 text-dark"
       variants={staggerContainer}
       initial="hidden"
       animate="visible"
     >
       <div className="max-w-2xl mx-auto flex flex-col items-center mt-4">
-        <motion.h1 
+        <motion.h1
           className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight tracking-tight"
           variants={fadeUp}
         >
           Every Parking Spot.<br />Always Accounted For.
         </motion.h1>
-        <motion.p 
+        <motion.p
           className="text-lg md:text-xl mb-10 text-fg0 font-medium"
           variants={fadeUp}
         >
           Digitize valet parking with QR-powered tracking,<br className="hidden md:block" /> real-time visibility and secure vehicle retrieval.
         </motion.p>
 
-        <motion.div 
+        <motion.div
           className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto"
           variants={fadeUp}
         >

@@ -26,7 +26,7 @@ export default function Header() {
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       // Glass morphism threshold
       setIsScrolled(currentScrollY > 50);
 
@@ -42,7 +42,7 @@ export default function Header() {
       } else {
         setIsVisible(true);
       }
-      
+
       lastScrollY.current = currentScrollY;
     };
 
@@ -65,7 +65,7 @@ export default function Header() {
   }, [isOpen]);
 
   return (
-    <motion.header 
+    <motion.header
       className="fixed top-0 w-full z-50"
       initial={{ y: 0 }}
       animate={{ y: isVisible ? 0 : "-100%" }}
@@ -73,8 +73,8 @@ export default function Header() {
     >
       {/* Header Bar */}
       <div className={`relative z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 ${
-        isOpen || isScrolled 
-          ? "bg-bg1/60 backdrop-blur-xl border-b border-bg0/10 shadow-sm" 
+        isOpen || isScrolled
+          ? "bg-bg1/60 backdrop-blur-xl border-b border-bg0/10 shadow-sm"
           : "bg-transparent border-b border-transparent shadow-none"
       }`}>
 
@@ -94,9 +94,12 @@ export default function Header() {
         {/* Right Actions */}
         <div className="flex items-center gap-4 z-50 relative">
           {/* Tablet+ Sign In Button (hidden on mobile, and hidden when menu is open) */}
-          <button className={`hidden md:inline-flex items-center justify-center px-4 py-1.5 text-sm font-semibold text-bg1 bg-bg0 border-2 border-bg0 hover:bg-transparent hover:text-bg0 transition-all duration-300 ${
-            isOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-          }`}>
+          <button
+            onClick={goToLogin}
+            className={`hidden md:inline-flex items-center justify-center px-4 py-1.5 text-sm font-semibold text-bg1 bg-bg0 border-2 border-bg0 hover:bg-transparent hover:text-bg0 transition-all duration-300 ${
+              isOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+          >
             Sign In
           </button>
 
@@ -121,7 +124,7 @@ export default function Header() {
       >
         <div className="flex-1 flex flex-col max-w-lg mx-auto w-full">
           {/* Nav Links */}
-          <motion.nav 
+          <motion.nav
             className="flex flex-col flex-1 mt-4"
             variants={staggerContainer}
             initial="hidden"
@@ -144,10 +147,16 @@ export default function Header() {
 
           {/* Bottom Actions */}
           <div className="mt-8 pt-6 flex flex-col gap-3 border-t border-bg0/20">
-            <button className="w-full py-3 text-center text-base font-semibold text-bg0 bg-transparent border-2 border-bg0 hover:bg-bg0 hover:text-bg1 transition-colors shadow-sm">
+            <button
+              onClick={goToLogin}
+              className="w-full py-3 text-center text-base font-semibold text-bg0 bg-transparent border-2 border-bg0 hover:bg-bg0 hover:text-bg1 transition-colors shadow-sm"
+            >
               Sign In
             </button>
-            <button className="w-full py-3 text-center text-base font-bold text-bg1 bg-bg0 hover:bg-bg0/90 transition-all duration-300 shadow-lg hover:-translate-y-0.5">
+            <button
+              onClick={goToLogin}
+              className="w-full py-3 text-center text-base font-bold text-bg1 bg-bg0 hover:bg-bg0/90 transition-all duration-300 shadow-lg hover:-translate-y-0.5"
+            >
               Get Started
             </button>
           </div>

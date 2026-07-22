@@ -155,30 +155,93 @@ ValetOS replaces these with a scalable, software-first solution that requires on
 # 🛠️ Technology Stack
 
 ## Frontend
-- React
-- Tailwind CSS
+- Next.js (App Router)
+- React 19
+- Tailwind CSS v4
 - TypeScript
-- Vite
 
 ## Backend
 - Node.js
 - Express.js
+- Socket.IO (live updates: `vehicle:parked`, `pickup:requested`, etc.)
+- Multer (vehicle image uploads to `server/uploads/`)
+- CORS
+- UUID for ids
+- **In-memory data store** — arrays in `server/data/store.js`, reseeded on every restart. _No database._
 
 ## Database
-- PostgreSQL / MongoDB
+- _Hackathon build:_ none. All state is in-memory.
+- Production target: PostgreSQL / MongoDB.
 
 ## Authentication
-- JWT
-- Role-Based Access Control
+- _Hackathon build:_ fake JWT (base64-encoded payload, `alg: "none"`). Three seeded accounts — manager, valet, admin. See the API section below.
+- Production target: real JWT + role-based access control.
 
 ## OCR
-- Google Vision API / Tesseract OCR
+- Google Vision API / Tesseract OCR (planned)
 
 ## Storage
-- Cloud Storage (AWS S3 / Firebase Storage)
+- _Hackathon build:_ uploaded vehicle images are written to `server/uploads/` and served at `/uploads/*`.
+- Production target: Cloud Storage (AWS S3 / Firebase Storage).
 
 ## Maps
 - Interactive Parking Layout
+
+---
+
+# 🚀 How to Run
+
+The API and the Next.js app boot together with a single command.
+
+```bash
+# from the repo root
+npm install              # installs root dev deps (concurrently)
+npm --prefix server install
+npm run dev              # Next on http://localhost:3000, API on http://localhost:4000
+```
+
+Run just the API on its own:
+
+```bash
+npm run dev:api          # http://localhost:4000
+```
+
+Run just the Next.js frontend:
+
+```bash
+npm run dev:web          # http://localhost:3000
+```
+
+### Demo logins
+
+| Role    | Email                | Password    |
+| ------- | -------------------- | ----------- |
+| Manager | manager@valetos.com  | password123 |
+| Valet   | valet@valetos.com    | password123 |
+| Admin   | admin@valetos.com    | password123 |
+
+`POST /auth/login` returns a base64 fake JWT — the payload is decodable client-side for display, but the server does not validate it.
+
+---
+
+# 📡 API Surface
+
+All responses use the shape `{ success, message, data }`. Full reference lives in [`server/README.md`](./server/README.md).
+
+| Resource     | Endpoints                                                                                  |
+| ------------ | ------------------------------------------------------------------------------------------ |
+| Auth         | `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`                                    |
+| Dashboard    | `GET /dashboard`                                                                           |
+| Spots        | `GET /spots`, `GET /spots/:id`                                                             |
+| Vehicles     | `GET /vehicles`, `GET /vehicles/:id`, `POST /vehicles/checkin`, `PUT /vehicles/:id/move`, `POST /vehicles/:id/checkout` |
+| Pickup       | `GET /pickup`, `POST /pickup`, `PUT /pickup/:id/status`                                    |
+| Valets       | `GET /valets`, `GET /valets/:id`                                                           |
+| Customers    | `GET /customers`                                                                           |
+| Incidents    | `GET /incidents`, `POST /incidents`                                                        |
+| Analytics    | `GET /analytics`                                                                           |
+| Uploads      | `GET /uploads/*`                                                                           |
+| Health       | `GET /health`                                                                              |
+| Live feed    | `ws://localhost:4000` — `vehicle:parked`, `vehicle:moved`, `vehicle:delivered`, `pickup:requested`, `pickup:updated`, `incident:created` |
 
 ---
 
@@ -187,16 +250,29 @@ ValetOS replaces these with a scalable, software-first solution that requires on
 ```
 ValetOS/
 │
-├── client/
-├── server/
-├── database/
-├── assets/
-├── docs/
-├── public/
+├── app/                  Next.js App Router (landing page UI)
+│   ├── components/       Header, Hero, sections, etc.
+│   ├── page.tsx
+│   ├── layout.tsx
+│   └── globals.css
 │
-├── README.md
-├── package.json
-└── docker-compose.yml
+├── server/               Hackathon backend (in-memory)
+│   ├── controllers/      auth, dashboard, spots, vehicles, pickup, resources, analytics
+│   ├── routes/           one router per resource
+│   ├── middleware/       response helpers, multer upload
+│   ├── data/store.js     seeded demo data (lots, spots, vehicles, valets, customers, etc.)
+│   ├── uploads/          image uploads served at /uploads/*
+│   ├── app.js            Express composition
+│   ├── server.js         HTTP + Socket.IO entry
+│   ├── package.json
+│   └── README.md         full API reference
+│
+├── public/               static assets
+│
+├── package.json          workspace scripts (concurrently runs web + api)
+├── tsconfig.json
+├── next.config.ts
+└── README.md
 ```
 
 ---
