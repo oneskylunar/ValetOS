@@ -199,7 +199,7 @@ export default function ScrollVideoSection() {
 
   return (
     <div ref={containerRef} className="h-[400vh] bg-bg0 -mt-1 relative">
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center">
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center z-41">
         {/* Floating Text Overlay Positioned ABOVE the animation */}
         <div className="absolute top-24 md:top-28 left-4 right-4 z-20 flex flex-col items-center justify-center text-center pointer-events-none min-h-[100px]">
           {timelineSteps.map((step, idx) => {

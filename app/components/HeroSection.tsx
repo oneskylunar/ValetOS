@@ -3,7 +3,7 @@
 export default function HeroSection() {
   return (
     <section className="relative flex flex-col items-center justify-center text-center px-6 pt-32 pb-8 bg-bg0 text-dark">
-      <div className="max-w-2xl mx-auto flex flex-col items-center z-10 mt-4">
+      <div className="max-w-2xl mx-auto flex flex-col items-center mt-4">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight tracking-tight">
           Every Parking Spot.<br />Always Accounted For.
         </h1>
