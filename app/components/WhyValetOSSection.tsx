@@ -57,7 +57,7 @@ export default function WhyValetOSSection() {
         {/* 2-Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 w-full text-left">
           {/* Left Side: Problems */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 z-41">
             <div className="text-xs font-mono font-bold tracking-widest text-bg0/80 uppercase px-3 py-1 bg-dark-valet/40 border border-bg0/20 rounded inline-block self-start mb-2">
               PROBLEMS
             </div>
