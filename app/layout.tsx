@@ -31,7 +31,7 @@ export default function RootLayout({
         />
 
         {/* Desktop Blocker Screen */}
-        <div className="hidden lg:flex fixed inset-0 z-[10000] bg-bg1 text-bg0 flex-col items-center justify-center p-8 text-center">
+        <div className="hidden lg:flex fixed inset-0 z-[10000] bg-band text-bg1 flex-col items-center justify-center p-8 text-center">
           <h1 className="text-3xl font-bold mb-4">
             Please switch to a mobile or tablet device
           </h1>

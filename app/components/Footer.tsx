@@ -23,7 +23,7 @@ export default function Footer() {
       variants={staggerContainer}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      className="bg-bg1 text-bg0 py-16 px-6 relative z-30 border-t border-bg0/10"
+      className="bg-band text-bg1 py-16 px-6 relative z-30 border-t border-bg1/10"
     >
       <div className="max-w-4xl mx-auto flex flex-col items-center">
         {/* Brand Header */}
@@ -37,16 +37,16 @@ export default function Footer() {
               style={{ width: "auto", height: "36px" }}
               className="object-contain"
             />
-            <span className="font-extrabold text-2xl text-bg0 tracking-wide">ValetOS</span>
+            <span className="font-extrabold text-2xl text-bg1 tracking-wide">ValetOS</span>
           </Link>
-          <p className="text-xs md:text-sm text-bg0/70 max-w-md leading-relaxed font-medium">
+          <p className="text-xs md:text-sm text-bg1/70 max-w-md leading-relaxed font-medium">
             The Next-Generation Digital Valet Infrastructure.
           </p>
         </motion.div>
 
         {/* Geometric Line Separator */}
-        <motion.div variants={fadeUp} className="w-full h-[1px] bg-bg0/20 my-6 relative flex items-center justify-center">
-          <div className="w-2.5 h-2.5 rotate-45 border border-bg0/40 bg-bg1" />
+        <motion.div variants={fadeUp} className="w-full h-[1px] bg-bg1/20 my-6 relative flex items-center justify-center">
+          <div className="w-2.5 h-2.5 rotate-45 border border-bg1/40 bg-bg1" />
         </motion.div>
 
         {/* Navigation Links */}
@@ -55,7 +55,7 @@ export default function Footer() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-bg0/80 hover:text-bg0 hover:opacity-100 transition-opacity transition-colors"
+              className="text-bg1/80 hover:text-bg1 hover:opacity-100 transition-opacity transition-colors"
             >
               {link.name}
             </Link>
@@ -63,15 +63,15 @@ export default function Footer() {
         </motion.nav>
 
         {/* Geometric Line Separator */}
-        <motion.div variants={fadeUp} className="w-full h-[1px] bg-bg0/20 my-6" />
+        <motion.div variants={fadeUp} className="w-full h-[1px] bg-bg1/20 my-6" />
 
         {/* Bottom Metadata & Copyright */}
-        <motion.div variants={fadeUp} className="w-full flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-bg0/60 pt-2">
+        <motion.div variants={fadeUp} className="w-full flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-bg1/60 pt-2">
           <span>© 2026 ValetOS Inc. All rights reserved.</span>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-bg0 hover:opacity-100 transition-opacity transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-bg0 hover:opacity-100 transition-opacity transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-bg0 hover:opacity-100 transition-opacity transition-colors">Security</a>
+            <a href="#" className="hover:text-bg1 hover:opacity-100 transition-opacity transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-bg1 hover:opacity-100 transition-opacity transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-bg1 hover:opacity-100 transition-opacity transition-colors">Security</a>
           </div>
         </motion.div>
       </div>

@@ -1,20 +1,24 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* ── Brand colors (preserved) ── */
-  --color-bg0: #f7d9c3;
-  --color-bg1: #122324;
-  --color-fg0: #cc702f;
-  --color-fg1: #2F3A32;
+  /* ── Brand colors (premium cream palette) ── */
+  --color-bg0: #EDE4D3;
+  --color-bg1: #1F1B16;
+  --color-fg0: #B8623A;
+  --color-fg1: #1F1B16;
   --color-dark-valet: #3E2411;
   --color-comment: #545748;
+  /* dark/border alias used in 30+ class names across components */
+  --color-dark: #1F1B16;
+  /* slightly darker cream used for visual band sections (WhyValetOS, Workflow, Footer) */
+  --color-band: #E5DAC6;
 
   /* ── Premium semantic tokens ── */
   --color-surface: #FFF8F1;
   --color-surface-secondary: #F8F6F2;
-  --color-text-primary: #101314;
+  --color-text-primary: #1F1B16;
   --color-text-secondary: #5C625F;
-  --color-border: rgba(18, 35, 36, 0.08);
+  --color-border: rgba(31, 27, 22, 0.12);
   --color-glass: rgba(255, 255, 255, 0.55);
   --color-shadow: rgba(0, 0, 0, 0.08);
 

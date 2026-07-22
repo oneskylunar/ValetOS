@@ -81,7 +81,7 @@ export default function Header() {
       {/* Header Bar */}
       <div className={`relative z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 ${
         isOpen || isScrolled
-          ? "bg-bg1/60 backdrop-blur-xl border-b border-bg0/10 shadow-sm"
+          ? "bg-band/85 backdrop-blur-xl border-b border-bg1/10 shadow-sm"
           : "bg-transparent border-b border-transparent shadow-none"
       }`}>
 
@@ -95,7 +95,7 @@ export default function Header() {
             style={{ width: "auto", height: "28px" }}
             className="object-contain"
           />
-          <span className="font-bold text-lg text-bg0 tracking-wide">ValetOS</span>
+          <span className="font-bold text-lg text-bg1 tracking-wide">ValetOS</span>
         </Link>
 
         {/* Right Actions */}
@@ -103,7 +103,7 @@ export default function Header() {
           {/* Tablet+ Sign In Button (hidden on mobile, and hidden when menu is open) */}
           <button
             onClick={goToLogin}
-            className={`hidden md:inline-flex items-center justify-center px-4 py-1.5 text-sm font-semibold text-bg1 bg-bg0 border-2 border-bg0 hover:bg-transparent hover:text-bg0 transition-all duration-300 ${
+            className={`hidden md:inline-flex items-center justify-center px-4 py-1.5 text-sm font-semibold text-bg0 bg-bg1 border-2 border-bg1 hover:bg-transparent hover:text-bg1 transition-all duration-300 ${
               isOpen ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}
           >
@@ -113,7 +113,7 @@ export default function Header() {
           {/* Menu Toggle (Hamburger) */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 text-bg0 hover:text-bg0/80 focus:outline-none flex flex-col gap-[6px] justify-center w-10 h-10 relative"
+            className="p-2 text-bg1 hover:text-bg1/80 focus:outline-none flex flex-col gap-[6px] justify-center w-10 h-10 relative"
             aria-label="Toggle menu"
           >
             <span className={`block w-6 h-[2px] bg-current transition-all duration-300 ease-out ${isOpen ? 'rotate-45 translate-y-[8px]' : ''}`} />
@@ -125,7 +125,7 @@ export default function Header() {
 
       {/* Full-screen Dropdown Menu */}
       <div
-        className={`fixed inset-0 min-h-[100dvh] w-full bg-bg1/40 backdrop-blur-lg flex flex-col pt-24 px-6 pb-8 overflow-y-auto transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-40 ${
+        className={`fixed inset-0 min-h-[100dvh] w-full bg-band/95 backdrop-blur-lg flex flex-col pt-24 px-6 pb-8 overflow-y-auto transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-40 ${
           isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-8 pointer-events-none"
         }`}
       >
@@ -142,7 +142,7 @@ export default function Header() {
                 <Link
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-2xl font-medium text-bg0 py-4 hover:text-bg0/80 transition-colors inline-block text-center"
+                  className="text-2xl font-medium text-bg1 py-4 hover:text-bg1/80 transition-colors inline-block text-center"
                 >
                   {link.name}
                 </Link>
@@ -153,16 +153,16 @@ export default function Header() {
           </motion.nav>
 
           {/* Bottom Actions */}
-          <div className="mt-8 pt-6 flex flex-col gap-3 border-t border-bg0/20">
+          <div className="mt-8 pt-6 flex flex-col gap-3 border-t border-bg1/20">
             <button
               onClick={goToLogin}
-              className="w-full py-3 text-center text-base font-semibold text-bg0 bg-transparent border-2 border-bg0 hover:bg-bg0 hover:text-bg1 transition-colors shadow-sm"
+              className="w-full py-3 text-center text-base font-semibold text-bg1 bg-transparent border-2 border-bg1 hover:bg-bg1 hover:text-bg0 transition-colors shadow-sm"
             >
               Sign In
             </button>
             <button
               onClick={goToLogin}
-              className="w-full py-3 text-center text-base font-bold text-bg1 bg-bg0 hover:bg-bg0/90 transition-all duration-300 shadow-lg hover:-translate-y-0.5"
+              className="w-full py-3 text-center text-base font-bold text-bg0 bg-bg1 hover:bg-bg1/90 transition-all duration-300 shadow-lg hover:-translate-y-0.5"
             >
               Get Started
             </button>
@@ -175,9 +175,9 @@ export default function Header() {
 
 function GeometricSeparator() {
   return (
-    <div className="w-full h-[1px] bg-bg0/20 my-2 relative flex items-center justify-center">
-      <div className="w-2.5 h-2.5 rotate-45 border border-bg0/40 bg-bg1"></div>
-      <div className="absolute w-[15%] h-[1px] bg-bg0/40 left-1/2 -translate-x-1/2"></div>
+    <div className="w-full h-[1px] bg-bg1/20 my-2 relative flex items-center justify-center">
+      <div className="w-2.5 h-2.5 rotate-45 border border-bg1/40 bg-bg1"></div>
+      <div className="absolute w-[15%] h-[1px] bg-bg1/40 left-1/2 -translate-x-1/2"></div>
     </div>
   );
 }

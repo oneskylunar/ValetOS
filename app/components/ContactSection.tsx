@@ -98,7 +98,7 @@ export default function ContactSection() {
                       type="text"
                       required
                       placeholder="John Doe"
-                      className="w-full px-4 py-3 bg-bg0/60 border border-dark/20 text-dark placeholder-fg0/50 focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors"
+                      className="w-full px-4 py-3 bg-band/60 border border-dark/20 text-dark placeholder-fg0/50 focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors"
                     />
                   </div>
 
@@ -111,7 +111,7 @@ export default function ContactSection() {
                         type="email"
                         required
                         placeholder="john@company.com"
-                        className="w-full px-4 py-3 bg-bg0/60 border border-dark/20 text-dark placeholder-fg0/50 focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors"
+                        className="w-full px-4 py-3 bg-band/60 border border-dark/20 text-dark placeholder-fg0/50 focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors"
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -121,7 +121,7 @@ export default function ContactSection() {
                       <input
                         type="tel"
                         placeholder="+1 (555) 000-0000"
-                        className="w-full px-4 py-3 bg-bg0/60 border border-dark/20 text-dark placeholder-fg0/50 focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors"
+                        className="w-full px-4 py-3 bg-band/60 border border-dark/20 text-dark placeholder-fg0/50 focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors"
                       />
                     </div>
                   </div>
@@ -131,7 +131,7 @@ export default function ContactSection() {
                       Facility / Venue Type
                     </label>
                     <select
-                      className="w-full px-4 py-3 bg-bg0/60 border border-dark/20 text-dark focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors"
+                      className="w-full px-4 py-3 bg-band/60 border border-dark/20 text-dark focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors"
                     >
                       <option>Hotel & Resort</option>
                       <option>Airport & Transit Hub</option>
@@ -150,7 +150,7 @@ export default function ContactSection() {
                       rows={4}
                       required
                       placeholder="Tell us about your valet operations and requirements..."
-                      className="w-full px-4 py-3 bg-bg0/60 border border-dark/20 text-dark placeholder-fg0/50 focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors resize-none"
+                      className="w-full px-4 py-3 bg-band/60 border border-dark/20 text-dark placeholder-fg0/50 focus:outline-none focus:border-bg1/50 focus:shadow-[inset_0_0_0_1px_rgba(18,35,36,0.3)] text-sm font-medium transition-colors resize-none"
                     />
                   </div>
 
