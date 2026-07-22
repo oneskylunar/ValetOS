@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, EASE_PREMIUM } from "@/app/lib/motion";
 
@@ -15,10 +16,16 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const lastScrollY = useRef(0);
+
+  const goToLogin = () => {
+    setIsOpen(false);
+    router.push("/login");
+  };
 
   // Scroll handler for hide/reveal and glass morphism
   useEffect(() => {
