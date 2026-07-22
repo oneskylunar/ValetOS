@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { fadeUp, staggerContainer, EASE_PREMIUM } from "@/app/lib/motion";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -14,6 +16,39 @@ const navLinks = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const lastScrollY = useRef(0);
+
+  // Scroll handler for hide/reveal and glass morphism
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Glass morphism threshold
+      setIsScrolled(currentScrollY > 50);
+
+      // Hide/reveal threshold
+      if (currentScrollY > 100) {
+        if (currentScrollY > lastScrollY.current) {
+          // Scrolling down
+          setIsVisible(false);
+        } else {
+          // Scrolling up
+          setIsVisible(true);
+        }
+      } else {
+        setIsVisible(true);
+      }
+      
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Prevent scrolling when menu is open
   useEffect(() => {
@@ -30,10 +65,17 @@ export default function Header() {
   }, [isOpen]);
 
   return (
-    <header className="fixed top-0 w-full z-50">
+    <motion.header 
+      className="fixed top-0 w-full z-50"
+      initial={{ y: 0 }}
+      animate={{ y: isVisible ? 0 : "-100%" }}
+      transition={{ duration: 0.55, ease: EASE_PREMIUM }}
+    >
       {/* Header Bar */}
-      <div className={`relative z-50 flex items-center justify-between px-6 py-4 transition-colors duration-500 shadow-sm border-b border-bg0/10 ${
-        isOpen ? "bg-bg1/40 backdrop-blur-lg" : "bg-bg1/40 backdrop-blur-lg"
+      <div className={`relative z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 ${
+        isOpen || isScrolled 
+          ? "bg-bg1/60 backdrop-blur-xl border-b border-bg0/10 shadow-sm" 
+          : "bg-transparent border-b border-transparent shadow-none"
       }`}>
 
         {/* Logo */}
@@ -79,9 +121,14 @@ export default function Header() {
       >
         <div className="flex-1 flex flex-col max-w-lg mx-auto w-full">
           {/* Nav Links */}
-          <nav className="flex flex-col flex-1 mt-4">
+          <motion.nav 
+            className="flex flex-col flex-1 mt-4"
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isOpen ? "visible" : "hidden"}
+          >
             {navLinks.map((link, idx) => (
-              <div key={link.name} className="flex flex-col">
+              <motion.div key={link.name} variants={fadeUp} className="flex flex-col">
                 <Link
                   href={link.href}
                   onClick={() => setIsOpen(false)}
@@ -91,9 +138,9 @@ export default function Header() {
                 </Link>
                 {/* Separator after each link except last */}
                 {idx < navLinks.length - 1 && <GeometricSeparator />}
-              </div>
+              </motion.div>
             ))}
-          </nav>
+          </motion.nav>
 
           {/* Bottom Actions */}
           <div className="mt-8 pt-6 flex flex-col gap-3 border-t border-bg0/20">
@@ -106,7 +153,7 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }
 

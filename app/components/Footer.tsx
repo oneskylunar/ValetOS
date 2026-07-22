@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { fadeUp, staggerContainer } from "@/app/lib/motion";
+import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 
 const footerNavLinks = [
   { name: "Home", href: "#home" },
@@ -12,12 +15,20 @@ const footerNavLinks = [
 ];
 
 export default function Footer() {
+  const { ref, isInView } = useScrollReveal<HTMLElement>({ once: true });
+
   return (
-    <footer className="bg-bg1 text-bg0 py-16 px-6 relative z-30 border-t border-bg0/10">
+    <motion.footer 
+      ref={ref}
+      variants={staggerContainer}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      className="bg-bg1 text-bg0 py-16 px-6 relative z-30 border-t border-bg0/10"
+    >
       <div className="max-w-4xl mx-auto flex flex-col items-center">
         {/* Brand Header */}
-        <div className="flex flex-col items-center gap-3 mb-8 text-center">
-          <Link href="/" className="flex items-center gap-3">
+        <motion.div variants={fadeUp} className="flex flex-col items-center gap-3 mb-8 text-center">
+          <Link href="/" className="flex items-center gap-3 hover:opacity-100 transition-opacity">
             <Image
               src="/logo.png"
               alt="ValetOS Logo"
@@ -31,39 +42,39 @@ export default function Footer() {
           <p className="text-xs md:text-sm text-bg0/70 max-w-md leading-relaxed font-medium">
             The Next-Generation Digital Valet Infrastructure.
           </p>
-        </div>
+        </motion.div>
 
         {/* Geometric Line Separator */}
-        <div className="w-full h-[1px] bg-bg0/20 my-6 relative flex items-center justify-center">
+        <motion.div variants={fadeUp} className="w-full h-[1px] bg-bg0/20 my-6 relative flex items-center justify-center">
           <div className="w-2.5 h-2.5 rotate-45 border border-bg0/40 bg-bg1" />
-        </div>
+        </motion.div>
 
         {/* Navigation Links */}
-        <nav className="flex flex-wrap items-center justify-center gap-6 my-6 text-sm font-semibold">
+        <motion.nav variants={fadeUp} className="flex flex-wrap items-center justify-center gap-6 my-6 text-sm font-semibold">
           {footerNavLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="text-bg0/80 hover:text-bg0 transition-colors"
+              className="text-bg0/80 hover:text-bg0 hover:opacity-100 transition-opacity transition-colors"
             >
               {link.name}
             </Link>
           ))}
-        </nav>
+        </motion.nav>
 
         {/* Geometric Line Separator */}
-        <div className="w-full h-[1px] bg-bg0/20 my-6" />
+        <motion.div variants={fadeUp} className="w-full h-[1px] bg-bg0/20 my-6" />
 
         {/* Bottom Metadata & Copyright */}
-        <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-bg0/60 pt-2">
+        <motion.div variants={fadeUp} className="w-full flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-bg0/60 pt-2">
           <span>© 2026 ValetOS Inc. All rights reserved.</span>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-bg0 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-bg0 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-bg0 transition-colors">Security</a>
+            <a href="#" className="hover:text-bg0 hover:opacity-100 transition-opacity transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-bg0 hover:opacity-100 transition-opacity transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-bg0 hover:opacity-100 transition-opacity transition-colors">Security</a>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

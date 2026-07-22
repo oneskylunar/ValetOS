@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useScrollReveal } from "@/app/hooks/useScrollReveal";
+import { fadeUp, fadeUpScale, fadeIn, staggerContainer, staggerContainerWide, dividerReveal } from "@/app/lib/motion";
 
 export const problems = [
   {
@@ -40,31 +43,40 @@ export const statsData = [
 ];
 
 export default function WhyValetOSSection() {
+  const { ref, isInView } = useScrollReveal<HTMLDivElement>();
+
   return (
     <section id="why-valetos" className="relative bg-bg1 text-bg0 py-20 px-6 z-30">
-      <div className="max-w-4xl mx-auto flex flex-col items-center">
+      <motion.div 
+        ref={ref}
+        variants={staggerContainer}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        className="max-w-4xl mx-auto flex flex-col items-center"
+      >
         {/* Section Divider Line */}
-        <div className="w-full h-[1px] bg-bg0/20 mb-8" />
+        <motion.div variants={dividerReveal} className="w-full h-[1px] bg-bg0/20 mb-8" />
 
         {/* Main Section Header */}
-        <h2 className="text-3xl md:text-4xl font-extrabold text-bg0 text-center leading-tight tracking-tight max-w-2xl mx-auto py-2">
+        <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-extrabold text-bg0 text-center leading-tight tracking-tight max-w-2xl mx-auto py-2">
           Traditional Parking<br />Creates More Problems Than Solutions.
-        </h2>
+        </motion.h2>
 
         {/* Section Divider Line */}
-        <div className="w-full h-[1px] bg-bg0/20 mt-8 mb-12" />
+        <motion.div variants={dividerReveal} className="w-full h-[1px] bg-bg0/20 mt-8 mb-12" />
 
         {/* 2-Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 w-full text-left">
           {/* Left Side: Problems */}
           <div className="flex flex-col gap-4 z-41">
-            <div className="text-xs font-mono font-bold tracking-widest text-bg0/80 uppercase px-3 py-1 bg-dark-valet/40 border border-bg0/20 rounded inline-block self-start mb-2">
+            <motion.div variants={fadeUp} className="text-xs font-mono font-bold tracking-widest text-bg0/80 uppercase px-3 py-1 bg-dark-valet/40 border border-bg0/20 rounded inline-block self-start mb-2">
               PROBLEMS
-            </div>
+            </motion.div>
             {problems.map((prob, idx) => (
-              <div
+              <motion.div
+                variants={fadeUpScale}
                 key={idx}
-                className="p-6 bg-bg0/10 border border-bg0/20 backdrop-blur-sm transition-all duration-300 hover:bg-bg0/15"
+                className="p-6 bg-bg0/10 border border-bg0/20 backdrop-blur-sm transition-all duration-300 hover:bg-bg0/15 hover:-translate-y-1.5 hover:scale-[1.01] hover:shadow-[0_20px_40px_-8px_rgba(0,0,0,0.15)] hover:border-bg0/40"
               >
                 <h3 className="text-lg font-bold text-bg0 mb-2 flex items-center gap-2">
                   <span className="text-red-300 text-base">❌</span> {prob.title}
@@ -72,19 +84,20 @@ export default function WhyValetOSSection() {
                 <p className="text-sm text-bg0/80 leading-relaxed font-normal">
                   {prob.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Right Side: Solutions */}
           <div className="flex flex-col gap-4">
-            <div className="text-xs font-mono font-bold tracking-widest text-bg0/80 uppercase px-3 py-1 bg-bg0/20 border border-bg0/30 rounded inline-block self-start mb-2">
+            <motion.div variants={fadeUp} className="text-xs font-mono font-bold tracking-widest text-bg0/80 uppercase px-3 py-1 bg-bg0/20 border border-bg0/30 rounded inline-block self-start mb-2">
               SOLUTIONS
-            </div>
+            </motion.div>
             {solutions.map((sol, idx) => (
-              <div
+              <motion.div
+                variants={fadeUpScale}
                 key={idx}
-                className="p-6 bg-bg0/15 border border-bg0/30 backdrop-blur-sm transition-all duration-300 hover:bg-bg0/20"
+                className="p-6 bg-bg0/15 border border-bg0/30 backdrop-blur-sm transition-all duration-300 hover:bg-bg0/20 hover:-translate-y-1.5 hover:scale-[1.01] hover:shadow-[0_20px_40px_-8px_rgba(0,0,0,0.15)] hover:border-bg0/40"
               >
                 <h3 className="text-lg font-bold text-bg0 mb-2 flex items-center gap-2">
                   <span className="text-emerald-300 text-base">✓</span> {sol.title}
@@ -92,20 +105,22 @@ export default function WhyValetOSSection() {
                 <p className="text-sm text-bg0/80 leading-relaxed font-normal">
                   {sol.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         {/* Animated Statistics */}
         <div className="w-full mt-20 pt-10 border-t border-bg0/20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <motion.div variants={staggerContainer} className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {statsData.map((stat, idx) => (
-              <AnimatedStatCard key={idx} stat={stat} />
+              <motion.div variants={fadeUpScale} key={idx}>
+                <AnimatedStatCard stat={stat} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
@@ -136,7 +151,7 @@ function AnimatedStatCard({ stat }: { stat: typeof statsData[number] }) {
             setCount(currentVal);
 
             if (progress < 1) {
-              requestAnimationFrame(animate);
+               requestAnimationFrame(animate);
             } else {
               setCount(end);
             }
