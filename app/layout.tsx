@@ -15,6 +15,7 @@ export default function RootLayout({
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-bg0 text-fg1">
         {/* Global Grainy Effect */}
+        suppressHydrationWarning
         <div className="grainy-overlay"></div>
 
         {/* Desktop Blocker Screen */}
