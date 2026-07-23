@@ -7,7 +7,7 @@ import { fadeUp, staggerContainer } from "@/app/lib/motion";
 export default function HeroSection() {
   const router = useRouter();
 
-  const goToLogin = () => router.push("/login");
+  const goToScan = () => router.push("/home");
 
   return (
     <motion.section
@@ -34,12 +34,15 @@ export default function HeroSection() {
           className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto"
           variants={fadeUp}
         >
-          <button className="w-full md:w-auto px-8 py-3.5 text-base font-bold text-bg0 bg-bg1 hover:bg-fg1 hover:text-bg0 transition-all shadow-lg hover:-translate-y-1 hover:shadow-[0_8px_30px_-4px_rgba(18,35,36,0.3)] active:scale-[0.98] active:shadow-sm">
+          <button onClick={goToScan} className="w-full md:w-auto px-8 py-3.5 text-base font-bold text-bg0 bg-bg1 hover:bg-fg1 hover:text-bg0 transition-all shadow-lg hover:-translate-y-1 hover:shadow-[0_8px_30px_-4px_rgba(18,35,36,0.3)] active:scale-[0.98] active:shadow-sm">
             Get Started
           </button>
-          <button className="w-full md:w-auto px-8 py-3.5 text-base font-bold text-bg1 bg-transparent border-2 border-bg1 hover:bg-bg1 hover:text-bg0 transition-all hover:-translate-y-1 hover:shadow-[0_8px_30px_-4px_rgba(18,35,36,0.2)] active:scale-[0.98] active:shadow-sm">
+          <a
+            href="#why-valetos"
+            className="w-full md:w-auto px-8 py-3.5 text-base font-bold text-bg1 bg-transparent border-2 border-bg1 hover:bg-bg1 hover:text-bg0 transition-all hover:-translate-y-1 hover:shadow-[0_8px_30px_-4px_rgba(18,35,36,0.2)] active:scale-[0.98] active:shadow-sm"
+          >
             Learn More
-          </button>
+          </a>
         </motion.div>
       </div>
     </motion.section>

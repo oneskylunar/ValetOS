@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useSyncExternalStore, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -9,55 +8,11 @@ import Footer from "../components/Footer";
 import QRScanner from "./QRScanner";
 import { fadeUp, EASE_PREMIUM } from "@/app/lib/motion";
 
-const TOKEN_KEY = "valetos.token";
-
-type User = {
-  name: string;
-  email: string;
-  role: string;
-};
-
-// Custom hook to safely read from localStorage (cached)
-function useLocalStorage<T>(key: string, initialValue: T): T {
-  const cachedRef = React.useRef<T | null>(null);
-  const isInitialized = React.useRef(false);
-
-  return useSyncExternalStore(
-    () => () => {},
-    () => {
-      if (typeof window === "undefined") return initialValue;
-
-      if (cachedRef.current !== null && isInitialized.current) {
-        return cachedRef.current;
-      }
-
-      const item = window.localStorage.getItem(key);
-      const parsed = item ? JSON.parse(item) : initialValue;
-      cachedRef.current = parsed;
-      isInitialized.current = true;
-      return parsed;
-    },
-    () => initialValue
-  );
-}
-
 export default function HomePage() {
-  const router = useRouter();
-  const user = useLocalStorage<User | null>("valetos.user", null);
   const [vehicleNumber, setVehicleNumber] = useState("");
 
-  // Check authentication on mount
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const token = window.localStorage.getItem(TOKEN_KEY);
-    if (!token) {
-      router.push("/login");
-    }
-  }, [router]);
-
   const handleExploreMore = () => {
-    router.push("/explore");
+    // TODO: hook up the explore route when it's ready
   };
 
   // Callback when QR is scanned
@@ -99,7 +54,7 @@ export default function HomePage() {
           </Link>
 
           {/* User Avatar */}
-          <UserAvatar user={user} />
+          <UserAvatar />
         </div>
       </motion.header>
 
@@ -161,15 +116,13 @@ export default function HomePage() {
   );
 }
 
-function UserAvatar({ user }: { user: User | null }) {
-  const initials = user?.name?.charAt(0)?.toUpperCase() || "U";
-
+function UserAvatar() {
   return (
-    <button
-      className="w-10 h-10 rounded-full bg-bg1 text-bg0 flex items-center justify-center text-sm font-bold hover:bg-fg1 transition-colors"
+    <div
+      className="w-10 h-10 rounded-full bg-bg1 text-bg0 flex items-center justify-center text-sm font-bold"
       aria-label="User menu"
     >
-      {initials}
-    </button>
+      U
+    </div>
   );
 }

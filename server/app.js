@@ -3,7 +3,6 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 
-const authRoutes      = require('./routes/auth.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const spotsRoutes     = require('./routes/spots.routes');
 const vehiclesRoutes  = require('./routes/vehicles.routes');
@@ -36,7 +35,6 @@ function buildApp() {
   }));
 
   // Mount routes
-  app.use('/auth',       authRoutes);
   app.use('/dashboard',  dashboardRoutes);
   app.use('/spots',      spotsRoutes);
   app.use('/vehicles',   vehiclesRoutes);
