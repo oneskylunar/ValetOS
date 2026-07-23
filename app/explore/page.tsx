@@ -1,12 +1,158 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  MapPinned,
+  Car,
+  Clock,
+  Percent,
+  Layers,
+  Search,
+  Circle,
+  X,
+} from "lucide-react";
+import Footer from "../components/Footer";
+import { fadeUp, staggerContainer, EASE_PREMIUM } from "@/app/lib/motion";
 
 const TOKEN_KEY = "valetos.token";
 
+// ============================================
+// HIERARCHICAL PARKING DATA MODEL
+// ============================================
+
+type Floor = {
+  name: string;
+  totalSpaces: number;
+  occupiedSpaces: number;
+};
+
+type Location = {
+  id: string;
+  name: string;
+  floors: Floor[];
+};
+
+const parkingLocations: Location[] = [
+  {
+    id: "loc-1",
+    name: "Phoenix Mall",
+    floors: [
+      { name: "Ground Floor", totalSpaces: 40, occupiedSpaces: 12 },
+      { name: "Basement 1", totalSpaces: 55, occupiedSpaces: 44 },
+      { name: "Basement 2", totalSpaces: 65, occupiedSpaces: 51 },
+    ],
+  },
+  {
+    id: "loc-2",
+    name: "Tech Park",
+    floors: [
+      { name: "Level 1", totalSpaces: 80, occupiedSpaces: 63 },
+      { name: "Level 2", totalSpaces: 80, occupiedSpaces: 39 },
+      { name: "Level 3", totalSpaces: 100, occupiedSpaces: 92 },
+    ],
+  },
+  {
+    id: "loc-3",
+    name: "City Centre",
+    floors: [
+      { name: "Ground Floor", totalSpaces: 32, occupiedSpaces: 14 },
+      { name: "Level 1", totalSpaces: 48, occupiedSpaces: 27 },
+    ],
+  },
+  {
+    id: "loc-4",
+    name: "Orion Mall",
+    floors: [
+      { name: "Ground Floor", totalSpaces: 50, occupiedSpaces: 22 },
+      { name: "Basement", totalSpaces: 72, occupiedSpaces: 60 },
+    ],
+  },
+];
+
+// Slot type
+type ParkingSlot = {
+  id: string;
+  row: number;
+  status: "occupied" | "vacant";
+  isSelected: boolean;
+};
+
+// Generate parking slots for a specific floor
+function generateParkingSlots(floor: Floor, locationIndex: number, floorIndex: number): ParkingSlot[] {
+  const { totalSpaces, occupiedSpaces } = floor;
+  const slots: ParkingSlot[] = [];
+
+  // Calculate rows (aim for ~8-10 slots per row)
+  const slotsPerRow = 8;
+  const rows = Math.ceil(totalSpaces / slotsPerRow);
+
+  // Generate prefix based on location and floor
+  // P = Phoenix, T = Tech Park, C = City Centre, O = Orion
+  const locationPrefix = ["P", "T", "C", "O"][locationIndex] || "P";
+
+  // Floor indicator: G = Ground, B = Basement, L = Level
+  let floorIndicator = "G";
+  const floorNameLower = floor.name.toLowerCase();
+  if (floorNameLower.includes("basement")) floorIndicator = "B";
+  else if (floorNameLower.includes("level")) floorIndicator = "L";
+  else if (floorNameLower.includes("ground")) floorIndicator = "G";
+
+  // Seed for consistent but varied occupancy
+  const seed = (locationIndex + 1) * 100 + (floorIndex + 1) * 7;
+
+  let occupiedCount = 0;
+  let slotNumber = 1;
+
+  for (let row = 0; row < rows; row++) {
+    for (let slot = 0; slot < slotsPerRow; slot++) {
+      // Stop if we've reached total spaces
+      if (slotNumber > totalSpaces) break;
+
+      // Determine slot ID
+      const slotId = `${locationPrefix}${floorIndicator}${slotNumber.toString().padStart(2, "0")}`;
+
+      // Determine occupancy - distribute occupied slots throughout
+      const isOccupied = occupiedCount < occupiedSpaces &&
+        ((seed + row * 3 + slot) % Math.max(1, Math.floor(totalSpaces / occupiedSpaces)) < 2);
+
+      if (isOccupied) occupiedCount++;
+
+      slots.push({
+        id: slotId,
+        row,
+        status: (isOccupied ? "occupied" : "vacant") as "occupied" | "vacant",
+        isSelected: false,
+      });
+
+      slotNumber++;
+    }
+  }
+
+  return slots;
+}
+
+// Calculate stats from floor data
+function calculateStats(floor: Floor) {
+  const total = floor.totalSpaces;
+  const occupied = floor.occupiedSpaces;
+  const vacant = total - occupied;
+  const occupancyRate = Math.round((occupied / total) * 100);
+
+  return { total, occupied, vacant, occupancyRate };
+}
+
 export default function ExplorePage() {
   const router = useRouter();
+  const [selectedLocationIndex, setSelectedLocationIndex] = useState(0);
+  const [selectedFloorIndex, setSelectedFloorIndex] = useState(0);
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -15,6 +161,46 @@ export default function ExplorePage() {
       router.push("/login");
     }
   }, [router]);
+
+  // Focus search input when modal opens
+  useEffect(() => {
+    if (isLocationModalOpen && searchInputRef.current) {
+      setTimeout(() => searchInputRef.current?.focus(), 100);
+    }
+  }, [isLocationModalOpen]);
+
+  // Get current location and floor
+  const currentLocation = parkingLocations[selectedLocationIndex];
+  const currentFloor = currentLocation.floors[selectedFloorIndex];
+
+  // Generate slots and stats based on current selection
+  const slots = generateParkingSlots(currentFloor, selectedLocationIndex, selectedFloorIndex);
+  const stats = calculateStats(currentFloor);
+
+  const filteredLocations = parkingLocations.filter((loc) =>
+    loc.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleLocationChange = (locationIndex: number) => {
+    setSelectedLocationIndex(locationIndex);
+    setSelectedFloorIndex(0);
+    setIsLocationModalOpen(false);
+    setSearchQuery("");
+  };
+
+  const handleFloorChange = (index: number) => {
+    setSelectedFloorIndex(index);
+  };
+
+  const openModal = () => {
+    setSearchQuery("");
+    setIsLocationModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsLocationModalOpen(false);
+    setSearchQuery("");
+  };
 
   return (
     <main className="min-h-screen bg-bg0 flex flex-col">
@@ -205,7 +391,7 @@ function LocationModal({
         {/* Location List */}
         <div className="flex-1 overflow-y-auto px-6 pb-6">
           <div className="flex flex-col gap-3">
-            {locations.map((loc, idx) => {
+            {locations.map((loc) => {
               const originalIndex = parkingLocations.findIndex(l => l.id === loc.id);
               const totalSpaces = loc.floors.reduce((sum, f) => sum + f.totalSpaces, 0);
 

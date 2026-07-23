@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -9,10 +10,11 @@ import QRScanner from "./QRScanner";
 import { fadeUp, EASE_PREMIUM } from "@/app/lib/motion";
 
 export default function HomePage() {
+  const router = useRouter();
   const [vehicleNumber, setVehicleNumber] = useState("");
 
   const handleExploreMore = () => {
-    // TODO: hook up the explore route when it's ready
+    router.push("/explore");
   };
 
   // Callback when QR is scanned
