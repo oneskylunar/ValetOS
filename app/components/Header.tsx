@@ -22,9 +22,9 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const lastScrollY = useRef(0);
 
-  const goToLogin = () => {
+  const goToScan = () => {
     setIsOpen(false);
-    router.push("/login");
+    router.push("/home");
   };
 
   // Scroll handler for hide/reveal and glass morphism
@@ -74,6 +74,7 @@ export default function Header() {
   return (
     <motion.header
       className="fixed top-0 w-full z-50"
+      data-site-header
       initial={{ y: 0 }}
       animate={{ y: isVisible ? 0 : "-100%" }}
       transition={{ duration: 0.55, ease: EASE_PREMIUM }}
@@ -100,16 +101,6 @@ export default function Header() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4 z-50 relative">
-          {/* Tablet+ Sign In Button (hidden on mobile, and hidden when menu is open) */}
-          <button
-            onClick={goToLogin}
-            className={`hidden md:inline-flex items-center justify-center px-4 py-1.5 text-sm font-semibold text-bg0 bg-bg1 border-2 border-bg1 hover:bg-transparent hover:text-bg1 transition-all duration-300 ${
-              isOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-            }`}
-          >
-            Sign In
-          </button>
-
           {/* Menu Toggle (Hamburger) */}
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -155,13 +146,7 @@ export default function Header() {
           {/* Bottom Actions */}
           <div className="mt-8 pt-6 flex flex-col gap-3 border-t border-bg1/20">
             <button
-              onClick={goToLogin}
-              className="w-full py-3 text-center text-base font-semibold text-bg1 bg-transparent border-2 border-bg1 hover:bg-bg1 hover:text-bg0 transition-colors shadow-sm"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={goToLogin}
+              onClick={goToScan}
               className="w-full py-3 text-center text-base font-bold text-bg0 bg-bg1 hover:bg-bg1/90 transition-all duration-300 shadow-lg hover:-translate-y-0.5"
             >
               Get Started

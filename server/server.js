@@ -29,7 +29,6 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
   console.log(`🚗 ValetOS API listening on http://localhost:${PORT}`);
   console.log(`   Health:    GET  http://localhost:${PORT}/health`);
-  console.log(`   Login:     POST http://localhost:${PORT}/auth/login`);
   console.log(`   Dashboard: GET  http://localhost:${PORT}/dashboard`);
   console.log(`   Uploads:   /uploads/*  (static)`);
   console.log(`   Sockets:   ws://localhost:${PORT}`);

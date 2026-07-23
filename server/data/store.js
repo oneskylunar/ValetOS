@@ -73,14 +73,6 @@ const admins = [
   { id: 'ADM-001', name: 'Atharv Founder', email: 'admin@valetos.com', phone: '+91 99000 00001' },
 ];
 
-// --- Auth users (lookup) ----------------------------------------------------
-// Used by /auth/login. Passwords are plain text on purpose — fake auth.
-const users = [
-  { id: 'MGR-001', email: 'manager@valetos.com', password: 'password123', role: 'manager', name: 'Rajesh Khanna' },
-  { id: 'VAL-001', email: 'valet@valetos.com',   password: 'password123', role: 'valet',   name: 'Mohammed Faisal' },
-  { id: 'ADM-001', email: 'admin@valetos.com',   password: 'password123', role: 'admin',   name: 'Atharv Founder' },
-];
-
 // --- Vehicles ----------------------------------------------------------------
 // Realistic Indian plate formats, mix of brands/colors, parked at known spots.
 // 10 of the 50 spots are pre-occupied; the rest are 'available'.
@@ -263,7 +255,6 @@ module.exports = {
   managers,
   valets,
   admins,
-  users,
   // ops
   vehicles,
   pickupRequests,

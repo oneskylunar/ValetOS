@@ -290,7 +290,7 @@ export default function ScrollVideoSection() {
                 <h2 className="text-2xl md:text-4xl font-extrabold text-dark leading-snug tracking-tight drop-shadow-sm">
                   {step.heading}
                 </h2>
-                <p className="text-sm md:text-lg font-semibold text-fg0 mt-2 max-w-md leading-relaxed drop-shadow-sm">
+                <p className="text-sm md:text-lg font-semibold text-fg2 mt-2 max-w-md leading-relaxed drop-shadow-sm">
                   {step.subtext}
                 </p>
               </div>

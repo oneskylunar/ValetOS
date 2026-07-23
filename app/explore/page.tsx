@@ -1,20 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-
-const TOKEN_KEY = "valetos.token";
 
 export default function ExplorePage() {
   const router = useRouter();
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const token = window.localStorage.getItem(TOKEN_KEY);
-    if (!token) {
-      router.push("/login");
-    }
-  }, [router]);
 
   return (
     <main className="min-h-screen bg-bg0 flex flex-col items-center justify-center px-6 text-center">
