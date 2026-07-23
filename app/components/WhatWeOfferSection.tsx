@@ -49,7 +49,7 @@ export const bentoFeatures = [
 ];
 
 export default function WhatWeOfferSection() {
-  const { ref, isInView } = useScrollReveal<HTMLElement>({ threshold: 0.1 });
+  const { ref, isInView } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
 
   return (
     <section id="what-we-offer" className="relative bg-bg0 text-dark py-24 px-6 z-30 border-t border-dark/10">
