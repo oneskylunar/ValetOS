@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Car,
-  User,
+  Smartphone,
+  ShieldCheck,
   Clock,
   CheckCircle2,
-  PartyPopper,
 } from "lucide-react";
 import Footer from "../components/Footer";
 import InfoCard from "../components/InfoCard";
@@ -20,7 +19,7 @@ import { fadeUp, EASE_PREMIUM } from "@/app/lib/motion";
 const MOCK_DATA = {
   vehicleNumber: "KA 01 AB 1234",
   valetName: "Rahul Sharma",
-  estimatedArrival: "2 minutes",
+  valetId: "EMP-004",
 };
 
 // Timeline steps
@@ -43,7 +42,6 @@ export default function RetrievalProgressPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [stepsWithTime, setStepsWithTime] = useState<TimelineStep[]>([]);
 
   // Simulate timeline progression
   useEffect(() => {
@@ -57,21 +55,6 @@ export default function RetrievalProgressPage() {
           clearInterval(interval);
           return prev;
         }
-
-        // Add timestamp to completed step
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-        setStepsWithTime((prevTimes) => {
-          const newTimes = [...prevTimes];
-          if (newTimes[prev]) {
-            newTimes[prev] = { ...newTimes[prev], timestamp: timeStr };
-          } else {
-            newTimes[prev] = { ...TIMELINE_STEPS[prev], timestamp: timeStr };
-          }
-          return newTimes;
-        });
-
         return nextStep;
       });
     }, 2500);
@@ -125,7 +108,7 @@ export default function RetrievalProgressPage() {
             >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-fg0/10 flex items-center justify-center">
-                  <Car className="w-6 h-6 text-fg0" />
+                  <Smartphone className="w-6 h-6 text-fg0" />
                 </div>
                 <div className="flex-1">
                   <p className="text-xs text-bg1/60 uppercase tracking-wider">Vehicle</p>
@@ -136,14 +119,14 @@ export default function RetrievalProgressPage() {
 
             <div className="flex gap-3">
               <InfoCard
-                icon={User}
+                icon={ShieldCheck}
                 label="Valet"
                 value={MOCK_DATA.valetName}
               />
               <InfoCard
                 icon={Clock}
                 label="ETA"
-                value={isComplete ? "Ready" : MOCK_DATA.estimatedArrival}
+                value={isComplete ? "Ready" : "2 minutes"}
                 accent={isComplete}
               />
             </div>
@@ -153,10 +136,7 @@ export default function RetrievalProgressPage() {
               <h3 className="text-sm font-bold text-bg1/70 mb-4 uppercase tracking-wider">
                 Status
               </h3>
-              <StatusTimeline
-                steps={TIMELINE_STEPS}
-                currentStep={currentStep}
-              />
+              <StatusTimeline steps={TIMELINE_STEPS} currentStep={currentStep} />
             </div>
 
             {/* Completion */}
