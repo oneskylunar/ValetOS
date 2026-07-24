@@ -1,6 +1,6 @@
-# 🚗 ValetOS
+# ValetOS
 
-> Smart Parking & Valet Management Platform powered by QR Codes.
+Smart Parking & Valet Management Platform powered by QR Codes.
 
 ValetOS is a modern parking and valet management system that digitizes the complete valet parking workflow. Instead of relying on expensive IoT sensors or AI-powered parking cameras, every parking space is assigned a unique QR code. Valets simply scan the QR code when parking or moving a vehicle, allowing the system to maintain a real-time digital map of the parking facility.
 
@@ -8,116 +8,7 @@ The platform improves operational efficiency, enhances customer trust, and provi
 
 ---
 
-## ✨ Features
-
-### 🚗 QR-Based Parking
-- Unique QR code assigned to every parking spot.
-- Instant vehicle-to-spot mapping.
-- No expensive sensors or infrastructure required.
-
-### 🔢 Automatic Vehicle Logging
-- OCR-based license plate recognition.
-- Manual vehicle number entry.
-- Automatic timestamp generation.
-- Parking status tracking.
-
-### 👤 Valet Accountability
-- Employee login with unique ID.
-- Every action linked to a specific valet.
-- Complete audit trail.
-
-### 📸 Vehicle Condition Recording
-- Capture vehicle images during check-in.
-- Multiple photos supported.
-- Helps resolve damage disputes.
-
-### 📍 Live Parking Map
-- Real-time parking occupancy.
-- Available and occupied spots.
-- Interactive parking layout.
-
-### 🔄 Vehicle Movement History
-- Track every relocation.
-- Movement timestamps.
-- Assigned valet history.
-- Reason for movement.
-
-### 📲 Customer Vehicle Tracking
-Customers can view:
-- Parking location
-- Assigned valet
-- Vehicle status
-- Pickup progress
-- Estimated retrieval time
-
-### 🔐 Secure Pickup Verification
-- OTP/PIN verification
-- QR-based pickup
-- Prevents unauthorized vehicle release
-
-### 📊 Analytics Dashboard
-- Occupancy trends
-- Peak parking hours
-- Average parking duration
-- Valet performance
-- Parking heatmaps
-- Daily reports
-
-### 🔑 Key Management
-- Digital key locker tracking
-- Access logs
-- Lost key prevention
-
-### 🚨 Incident Reporting
-- Damage reports
-- Customer complaints
-- Lost items
-- Vehicle incidents
-
-### 📩 Customer Notifications
-- Vehicle parked
-- Pickup initiated
-- Vehicle ready
-- SMS/WhatsApp notifications
-
----
-
-# 🏗️ System Workflow
-
-```text
-Vehicle Arrives
-       │
-       ▼
-Valet Login
-       │
-       ▼
-Scan License Plate (OCR)
-       │
-       ▼
-Scan Parking Spot QR
-       │
-       ▼
-Capture Vehicle Photos
-       │
-       ▼
-Vehicle Stored
-       │
-       ▼
-Customer Receives Confirmation
-       │
-       ▼
-Pickup Requested
-       │
-       ▼
-PIN / QR Verification
-       │
-       ▼
-Vehicle Delivered
-```
-
----
-
-# 🎯 Why ValetOS?
+## Problem It Solves
 
 Traditional valet systems often rely on:
 - Paper tickets
@@ -127,245 +18,242 @@ Traditional valet systems often rely on:
 
 ValetOS replaces these with a scalable, software-first solution that requires only QR codes and a smartphone.
 
-## Benefits
+---
 
-- 📉 Lower infrastructure costs
-- ⚡ Faster vehicle retrieval
-- 🔒 Increased accountability
-- 📊 Actionable business insights
-- 😊 Improved customer experience
-- 🚗 Reduced vehicle search time
+## Core Features
+
+| Feature | Status | Description |
+|---------|--------|-------------|
+| QR-Based Parking | Implemented | Unique QR code for every parking spot |
+| Live Parking Map | Implemented | Real-time occupancy view |
+| Vehicle Tracking | Implemented | Monitor parking status |
+| OTP Verification | Implemented | Secure pickup verification |
+| Retrieval Progress | Implemented | Live retrieval timeline |
+| Vehicle Check-in | Planned | Capture photos, scan QR |
+| Movement History | Planned | Track relocations |
+| Incident Reporting | Planned | Damage/complaint reports |
+| Analytics Dashboard | Planned | Occupancy trends, reports |
 
 ---
 
-# 🏢 Ideal For
+## Customer Parking & Retrieval Flow
 
-- Hotels
-- Shopping Malls
-- Hospitals
-- Airports
-- Corporate Offices
-- Residential Societies
-- Event Venues
-- Restaurants
-- Convention Centers
+ValetOS uses **session-based identification** — no persistent customer accounts or passwords.
+
+```
+1. Scan QR → 2. Enter Phone → 3. Verify OTP → 4. View Status → 5. Request Retrieval → 6. Verify → 7. Pickup
+```
+
+### Steps:
+
+1. **Scan QR Code** — Customer scans their valet token QR (simulated in UI)
+2. **Phone Verification** — Enter 10-digit mobile number
+3. **OTP Verification** — Verify with 6-digit OTP (demo: 123456)
+4. **Parking Status** — View vehicle location, valet, slot info
+5. **Request Retrieval** — Tap "Retrieve Car"
+6. **Verify Identity** — OTP verification for security
+7. **Live Progress** — Track valet bringing vehicle
+8. **Complete** — Vehicle ready for pickup
+
+Once the session ends, the customer's data is cleared. The next customer starts fresh.
 
 ---
 
-# 🛠️ Technology Stack
+## Valet/Staff Workflow
 
-## Frontend
-- Next.js (App Router)
-- React 19
+For valets and staff (internal operations):
+
+- Vehicle check-in with photo capture
+- QR scanning to assign parking spots
+- Vehicle movement tracking
+- Pickup request handling
+- Incident reporting
+
+Note: Staff authentication is currently not connected to the frontend.
+
+---
+
+## Tech Stack
+
+### Frontend
+- Next.js 16.2.10 (App Router)
+- React 19.2.4
 - Tailwind CSS v4
 - TypeScript
+- Framer Motion (animations)
+- Lucide React (icons)
 
-## Backend
-- Node.js
-- Express.js
-- Socket.IO (live updates: `vehicle:parked`, `pickup:requested`, etc.)
-- Multer (vehicle image uploads to `server/uploads/`)
-- CORS
-- UUID for ids
-- **In-memory data store** — arrays in `server/data/store.js`, reseeded on every restart. _No database._
+### Backend
+- Node.js with Express.js
+- Socket.IO (real-time events)
+- Multer (file uploads)
+- UUID (ID generation)
 
-## Database
-- _Hackathon build:_ none. All state is in-memory.
-- Production target: PostgreSQL / MongoDB.
+### Data Storage
+- **In-memory only** — All data stored in JavaScript arrays, reseeded on server restart
+- No database configured
+- Production target: PostgreSQL or MongoDB
 
-## Authentication
-- _Hackathon build:_ fake JWT (base64-encoded payload, `alg: "none"`). Three seeded accounts — manager, valet, admin. See the API section below.
-- Production target: real JWT + role-based access control.
-
-## OCR
-- Google Vision API / Tesseract OCR (planned)
-
-## Storage
-- _Hackathon build:_ uploaded vehicle images are written to `server/uploads/` and served at `/uploads/*`.
-- Production target: Cloud Storage (AWS S3 / Firebase Storage).
-
-## Maps
-- Interactive Parking Layout
+### Storage (Images)
+- Uploaded vehicle images written to `server/uploads/`
+- Served at `/uploads/*`
+- Production target: Cloud storage (AWS S3 / Firebase)
 
 ---
 
-# 🚀 How to Run
-
-The API and the Next.js app boot together with a single command.
-
-```bash
-# from the repo root
-npm install              # installs root dev deps (concurrently)
-npm --prefix server install
-npm run dev              # Next on http://localhost:3000, API on http://localhost:4000
-```
-
-Run just the API on its own:
-
-```bash
-npm run dev:api          # http://localhost:4000
-```
-
-Run just the Next.js frontend:
-
-```bash
-npm run dev:web          # http://localhost:3000
-```
-
-### Demo logins
-
-| Role    | Email                | Password    |
-| ------- | -------------------- | ----------- |
-| Manager | manager@valetos.com  | password123 |
-| Valet   | valet@valetos.com    | password123 |
-| Admin   | admin@valetos.com    | password123 |
-
-`POST /auth/login` returns a base64 fake JWT — the payload is decodable client-side for display, but the server does not validate it.
-
----
-
-# 📡 API Surface
-
-All responses use the shape `{ success, message, data }`. Full reference lives in [`server/README.md`](./server/README.md).
-
-| Resource     | Endpoints                                                                                  |
-| ------------ | ------------------------------------------------------------------------------------------ |
-| Auth         | `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`                                    |
-| Dashboard    | `GET /dashboard`                                                                           |
-| Spots        | `GET /spots`, `GET /spots/:id`                                                             |
-| Vehicles     | `GET /vehicles`, `GET /vehicles/:id`, `POST /vehicles/checkin`, `PUT /vehicles/:id/move`, `POST /vehicles/:id/checkout` |
-| Pickup       | `GET /pickup`, `POST /pickup`, `PUT /pickup/:id/status`                                    |
-| Valets       | `GET /valets`, `GET /valets/:id`                                                           |
-| Customers    | `GET /customers`                                                                           |
-| Incidents    | `GET /incidents`, `POST /incidents`                                                        |
-| Analytics    | `GET /analytics`                                                                           |
-| Uploads      | `GET /uploads/*`                                                                           |
-| Health       | `GET /health`                                                                              |
-| Live feed    | `ws://localhost:4000` — `vehicle:parked`, `vehicle:moved`, `vehicle:delivered`, `pickup:requested`, `pickup:updated`, `incident:created` |
-
----
-
-# 📂 Project Structure
+## Project Architecture
 
 ```
 ValetOS/
+├── app/                    # Next.js App Router (frontend)
+│   ├── components/        # Reusable UI components
+│   ├── explore/          # Parking dashboard
+│   ├── home/            # QR scanner + vehicle input
+│   ├── parking-status/  # View parking info
+│   ├── retrieval-progress/  # Live retrieval
+│   ├── retrieve-verify/# OTP for retrieval
+│   ├── verify/          # Phone + OTP verification
+│   └── page.tsx        # Landing page
 │
-├── app/                  Next.js App Router (landing page UI)
-│   ├── components/       Header, Hero, sections, etc.
-│   ├── page.tsx
-│   ├── layout.tsx
-│   └── globals.css
+├── server/               # Express.js backend
+│   ├── controllers/     # Business logic
+│   ├── routes/         # API endpoints
+│   ├── data/           # In-memory store
+│   ├── uploads/        # Image uploads
+│   ├── app.js          # Express app
+│   └── server.js       # HTTP + Socket.IO
 │
-├── server/               Hackathon backend (in-memory)
-│   ├── controllers/      auth, dashboard, spots, vehicles, pickup, resources, analytics
-│   ├── routes/           one router per resource
-│   ├── middleware/       response helpers, multer upload
-│   ├── data/store.js     seeded demo data (lots, spots, vehicles, valets, customers, etc.)
-│   ├── uploads/          image uploads served at /uploads/*
-│   ├── app.js            Express composition
-│   ├── server.js         HTTP + Socket.IO entry
-│   ├── package.json
-│   └── README.md         full API reference
-│
-├── public/               static assets
-│
-├── package.json          workspace scripts (concurrently runs web + api)
-├── tsconfig.json
-├── next.config.ts
-└── README.md
+├── public/              # Static assets
+└── package.json         # Workspace scripts
 ```
 
 ---
 
-# 👥 User Roles
+## Frontend Routes
 
-## 👨 Customer
-- Track vehicle
-- Request pickup
-- View parking status
-- Receive notifications
+| Route | Status | Description |
+|-------|--------|-------------|
+| `/` | Implemented | Landing page |
+| `/home` | Implemented | QR scanner + vehicle input |
+| `/explore` | Implemented | Parking dashboard |
+| `/verify` | Implemented | Phone + OTP verification (combined) |
+| `/parking-status` | Implemented | View parked vehicle info |
+| `/retrieve-verify` | Implemented | OTP before retrieval |
+| `/retrieval-progress` | Implemented | Live retrieval timeline |
 
-## 🚗 Valet
-- Vehicle check-in
-- QR scanning
-- Vehicle movement
-- Photo capture
-- Pickup verification
-
-## 🛡️ Manager
-- Live dashboard
-- Analytics
-- Incident reports
-- Employee monitoring
-- Parking utilization
-
-## ⚙️ Administrator
-- Manage users
-- Configure parking layout
-- System settings
-- Branch management
+All routes are directly accessible for demo purposes.
 
 ---
 
-# 📈 Dashboard Metrics
+## Backend API Routes
 
-- Active Vehicles
-- Available Parking Spots
-- Occupancy Rate
-- Average Retrieval Time
-- Average Parking Duration
-- Valet Performance Score
-- Peak Parking Hours
-- Daily Revenue (Optional)
+All responses return `{ success, message, data }`.
 
----
+| Endpoint | Method | Description |
+|---------|--------|-------------|
+| `/health` | GET | Server health check |
+| `/dashboard` | GET | Overview metrics |
+| `/spots` | GET | All parking spots |
+| `/spots/:id` | GET | Single spot details |
+| `/vehicles` | GET | All vehicles |
+| `/vehicles/:id` | GET | Single vehicle |
+| `/vehicles/checkin` | POST | Check in vehicle |
+| `/vehicles/:id/move` | PUT | Move vehicle |
+| `/vehicles/:id/checkout` | POST | Check out vehicle |
+| `/pickup` | GET | All pickup requests |
+| `/pickup` | POST | Create pickup request |
+| `/pickup/:id/status` | PUT | Update pickup status |
+| `/valets` | GET | All valets |
+| `/valets/:id` | GET | Single valet |
+| `/customers` | GET | All customers |
+| `/incidents` | GET | All incidents |
+| `/incidents` | POST | Create incident |
+| `/analytics` | GET | Analytics data |
+| `/uploads/*` | GET | Serve uploaded images |
 
-# 🔒 Security
-
-- JWT Authentication
-- Role-Based Permissions
-- Vehicle Pickup Verification
-- Audit Logs
-- Encrypted Data Storage
-- Secure API Endpoints
-
----
-
-# 🚀 Future Roadmap
-
-- AI License Plate Recognition
-- Indoor Navigation
-- Smart Parking Sensors
-- CCTV Integration
-- EV Charging Management
-- Multi-Branch Support
-- WhatsApp Integration
-- Predictive Occupancy Analytics
-- Automated Valet Assignment
-- Digital Payments
-- Loyalty & Membership Programs
+**Note:** Auth endpoints (`/auth/*`) are not implemented. Frontend does not use backend authentication.
 
 ---
 
-# 📸 Screens
+## Realtime Events (Socket.IO)
 
-- Login
-- Dashboard
-- Live Parking Map
-- Vehicle Check-in
-- Vehicle Details
-- Customer Tracking
-- Analytics
-- Settings
+Socket.IO runs on port 4000. Clients can connect and listen for:
 
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
+| Event | Description |
+|-------|-------------|
+| `hello` | Connection confirmation |
+| `vehicle:parked` | New vehicle parked |
+| `vehicle:moved` | Vehicle relocated |
+| `vehicle:delivered` | Vehicle picked up |
+| `pickup:requested` | New pickup request |
+| `pickup:updated` | Pickup status changed |
+| `incident:created` | New incident reported |
 
 ---
 
-# 💡 Vision
+## Installation & Development
 
-ValetOS aims to make valet parking **paperless, transparent, efficient, and scalable** by replacing manual parking operations with a simple QR-powered digital ecosystem. Whether managing a 50-space hotel parking lot or a 5,000-space airport facility, ValetOS provides complete visibility, accountability, and operational intelligence from check-in to pickup.
+```bash
+# Install dependencies
+npm install
+npm --prefix server install
+
+# Run both frontend and backend
+npm run dev
+
+# Run frontend only (http://localhost:3000)
+npm run dev:web
+
+# Run backend only (http://localhost:4000)
+npm run dev:api
+
+# Build for production
+npm run build
+```
+
+---
+
+## Demo Data
+
+The backend includes seeded demo data:
+
+- **3 floors** (Ground Floor, Level 1, Rooftop) with 50 total spots
+- **20 customers** with names, phones, emails
+- **5 valets** with ratings and status
+- **10 parked vehicles** with plates, brands, colors
+- **3 pickup requests** in various states
+- **3 incident reports**
+
+Frontend uses separate mock data for the customer flow (Phoenix Mall, Tech Park, etc.).
+
+---
+
+## Current Limitations
+
+- No persistent database — all data resets on server restart
+- Frontend not connected to backend APIs
+- No real SMS/OTP — uses demo OTP (123456)
+- No QR scanner integration with backend
+- No role-based authentication
+- No actual file upload handling
+- Socket.IO events not consumed by frontend
+
+---
+
+## Future Improvements
+
+- Connect frontend to backend APIs
+- Real OTP delivery (Twilio/Firebase)
+- QR scanner integration
+- Persistent database (PostgreSQL/MongoDB)
+- Role-based access (customers, valets, managers, admins)
+- Cloud storage for images
+- Push notifications
+- Payment integration
+- Multi-branch support
+
+---
+
+## License
+
+MIT License

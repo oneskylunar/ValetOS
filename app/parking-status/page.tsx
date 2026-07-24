@@ -3,19 +3,14 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  Car,
-  User,
-  MapPin,
-  Clock,
-  ArrowRight,
-} from "lucide-react";
+import { Smartphone, ShieldCheck, ArrowRight } from "lucide-react";
 import Footer from "../components/Footer";
 import InfoCard from "../components/InfoCard";
 import { fadeUp, EASE_PREMIUM } from "@/app/lib/motion";
 
 // Mock data
 const MOCK_DATA = {
+  phone: "9876543210",
   vehicleNumber: "KA 01 AB 1234",
   customerName: "Arya",
   valetName: "Rahul Sharma",
@@ -27,11 +22,25 @@ const MOCK_DATA = {
   lastUpdated: "2 minutes ago",
 };
 
+// Status Badge Component
+function StatusBadge({ accent = false }: { accent?: boolean }) {
+  return (
+    <span
+      className={`px-4 py-2 rounded-full text-sm font-medium ${
+        accent
+          ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
+          : "bg-fg0/10 text-fg0 border border-fg0/20"
+      }`}
+    >
+      {MOCK_DATA.status}
+    </span>
+  );
+}
+
 export default function ParkingStatusPage() {
   const router = useRouter();
 
   const handleRetrieveCar = () => {
-    // TODO: Navigate to retrieve verification
     router.push("/retrieve-verify");
   };
 
@@ -44,7 +53,7 @@ export default function ParkingStatusPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: EASE_PREMIUM }}
       >
-        <Link href="/verify-otp" className="flex items-center gap-2 text-bg1/70 hover:text-bg1 transition-colors">
+        <Link href="/verify" className="flex items-center gap-2 text-bg1/70 hover:text-bg1 transition-colors">
           <span className="text-sm font-medium">Back</span>
         </Link>
       </motion.header>
@@ -77,7 +86,7 @@ export default function ParkingStatusPage() {
             >
               <div className="flex items-center justify-center mb-4">
                 <div className="w-16 h-16 rounded-full bg-fg0/10 flex items-center justify-center">
-                  <Car className="w-8 h-8 text-fg0" />
+                  <Smartphone className="w-8 h-8 text-fg0" />
                 </div>
               </div>
               <h2 className="text-2xl font-bold text-bg1 text-center tracking-wider">
@@ -87,35 +96,33 @@ export default function ParkingStatusPage() {
 
             {/* Status Badge */}
             <div className="flex justify-center">
-              <span className="px-4 py-2 bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 rounded-full text-sm font-medium">
-                {MOCK_DATA.status}
-              </span>
+              <StatusBadge accent />
             </div>
 
             {/* Info Cards */}
             <div className="flex flex-col gap-3">
               <InfoCard
-                icon={User}
+                icon={ShieldCheck}
                 label="Valet Driver"
                 value={MOCK_DATA.valetName}
               />
               <InfoCard
-                icon={User}
+                icon={ShieldCheck}
                 label="Employee ID"
                 value={MOCK_DATA.valetId}
               />
               <InfoCard
-                icon={MapPin}
+                icon={ShieldCheck}
                 label="Parking Location"
                 value={
                   <div>
                     <div>{MOCK_DATA.location}</div>
-                    <div className="text-sm text-bg1/60">{MOCK_DATA.floor} • Slot {MOCK_DATA.slot}</div>
+                    <div className="text-sm text-bg1/60">{MOCK_DATA.floor} - Slot {MOCK_DATA.slot}</div>
                   </div>
                 }
               />
               <InfoCard
-                icon={Clock}
+                icon={ShieldCheck}
                 label="Last Updated"
                 value={MOCK_DATA.lastUpdated}
                 accent
