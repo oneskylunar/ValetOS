@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,8 +16,6 @@ import {
 } from "lucide-react";
 import Footer from "../components/Footer";
 import { fadeUp, staggerContainer, EASE_PREMIUM } from "@/app/lib/motion";
-
-const TOKEN_KEY = "valetos.token";
 
 // ============================================
 // HIERARCHICAL PARKING DATA MODEL
@@ -146,21 +143,12 @@ function calculateStats(floor: Floor) {
 }
 
 export default function ExplorePage() {
-  const router = useRouter();
   const [selectedLocationIndex, setSelectedLocationIndex] = useState(0);
   const [selectedFloorIndex, setSelectedFloorIndex] = useState(0);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const searchInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const token = window.localStorage.getItem(TOKEN_KEY);
-    if (!token) {
-      router.push("/login");
-    }
-  }, [router]);
 
   // Focus search input when modal opens
   useEffect(() => {
