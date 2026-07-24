@@ -54,9 +54,6 @@ export default function HomePage() {
             />
             <span className="font-bold text-lg text-bg1 tracking-wide">ValetOS</span>
           </Link>
-
-          {/* User Avatar */}
-          <UserAvatar />
         </div>
       </motion.header>
 
@@ -115,16 +112,5 @@ export default function HomePage() {
       {/* Footer */}
       <Footer />
     </main>
-  );
-}
-
-function UserAvatar() {
-  return (
-    <div
-      className="w-10 h-10 rounded-full bg-bg1 text-bg0 flex items-center justify-center text-sm font-bold"
-      aria-label="User menu"
-    >
-      U
-    </div>
   );
 }
