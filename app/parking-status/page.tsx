@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Smartphone, ShieldCheck, ArrowRight } from "lucide-react";
+import { Smartphone, ShieldCheck, ArrowRight, ArrowLeft } from "lucide-react";
 import Footer from "../components/Footer";
 import InfoCard from "../components/InfoCard";
 import { fadeUp, EASE_PREMIUM } from "@/app/lib/motion";
@@ -53,7 +53,8 @@ export default function ParkingStatusPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: EASE_PREMIUM }}
       >
-        <Link href="/verify" className="flex items-center gap-2 text-bg1/70 hover:text-bg1 transition-colors">
+        <Link href="/home" className="flex items-center gap-2 text-bg1/70 hover:text-bg1 transition-colors">
+          <ArrowLeft className="w-4 h-4" />
           <span className="text-sm font-medium">Back</span>
         </Link>
       </motion.header>
