@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeUp, fadeUpScale, staggerContainer, fadeIn } from "@/app/lib/motion";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
@@ -44,19 +45,19 @@ export default function ContactSection() {
           {/* Info Side Cards */}
           <div className="flex flex-col gap-4 md:col-span-1">
             <motion.div variants={fadeUpScale} className="p-6 bg-bg1/10 border border-dark/15 backdrop-blur-sm flex flex-col gap-2">
-              <span className="text-2xl">📧</span>
+              <Mail className="w-6 h-6 text-dark" strokeWidth={1.5} />
               <span className="text-xs font-mono font-bold text-fg0 uppercase">Email Us</span>
               <span className="text-base font-bold text-dark">contact@valetos.com</span>
             </motion.div>
 
             <motion.div variants={fadeUpScale} className="p-6 bg-bg1/10 border border-dark/15 backdrop-blur-sm flex flex-col gap-2">
-              <span className="text-2xl">📞</span>
+              <Phone className="w-6 h-6 text-dark" strokeWidth={1.5} />
               <span className="text-xs font-mono font-bold text-fg0 uppercase">Call / WhatsApp</span>
               <span className="text-base font-bold text-dark">+1 (800) 555-VALET</span>
             </motion.div>
 
             <motion.div variants={fadeUpScale} className="p-6 bg-bg1/10 border border-dark/15 backdrop-blur-sm flex flex-col gap-2">
-              <span className="text-2xl">📍</span>
+              <MapPin className="w-6 h-6 text-dark" strokeWidth={1.5} />
               <span className="text-xs font-mono font-bold text-fg0 uppercase">Headquarters</span>
               <span className="text-base font-bold text-dark">San Francisco, CA</span>
             </motion.div>
