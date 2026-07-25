@@ -47,19 +47,19 @@ export default function ContactSection() {
             <motion.div variants={fadeUpScale} className="p-6 bg-bg1/10 border border-dark/15 backdrop-blur-sm flex flex-col gap-2">
               <Mail className="w-6 h-6 text-dark" strokeWidth={1.5} />
               <span className="text-xs font-mono font-bold text-fg0 uppercase">Email Us</span>
-              <span className="text-base font-bold text-dark">contact@valetos.com</span>
+              <span className="text-base font-bold text-dark">team.BET@valetos.com</span>
             </motion.div>
 
             <motion.div variants={fadeUpScale} className="p-6 bg-bg1/10 border border-dark/15 backdrop-blur-sm flex flex-col gap-2">
               <Phone className="w-6 h-6 text-dark" strokeWidth={1.5} />
               <span className="text-xs font-mono font-bold text-fg0 uppercase">Call / WhatsApp</span>
-              <span className="text-base font-bold text-dark">+1 (800) 555-VALET</span>
+              <span className="text-base font-bold text-dark">+91 9876543-BET</span>
             </motion.div>
 
             <motion.div variants={fadeUpScale} className="p-6 bg-bg1/10 border border-dark/15 backdrop-blur-sm flex flex-col gap-2">
               <MapPin className="w-6 h-6 text-dark" strokeWidth={1.5} />
               <span className="text-xs font-mono font-bold text-fg0 uppercase">Headquarters</span>
-              <span className="text-base font-bold text-dark">San Francisco, CA</span>
+              <span className="text-base font-bold text-dark">Rishihood University, Sonipat, Haryana</span>
             </motion.div>
           </div>
 
