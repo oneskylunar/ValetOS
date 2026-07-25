@@ -170,6 +170,11 @@ export default function QRScanner({ onScan }: QRScannerProps) {
 
   return (
     <>
+      <style>{`
+        #qr-shaded-region > div {
+          display: none !important;
+        }
+      `}</style>
       <motion.div
         className="w-full max-w-sm mx-auto"
         variants={fadeUp}
