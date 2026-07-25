@@ -16,8 +16,8 @@ import Footer from "../components/Footer";
 import InfoCard from "../components/InfoCard";
 import { fadeUp, EASE_PREMIUM } from "@/app/lib/motion";
 
-// Mock data for self-parking
-const SELF_PARKING_DATA = {
+// Default mock data for self-parking
+const DEFAULT_SELF_PARKING_DATA = {
   vehicleNumber: "DL 01 AB 1234",
   vehicleType: "Sedan",
   spot: "A-12",
@@ -51,19 +51,25 @@ export default function SelfParkingStatusPage() {
   const router = useRouter();
   const [parkingDuration, setParkingDuration] = useState("00:00:00");
 
-  // Get phone from session storage
+  // Get phone and vehicle number from session storage
   const [phone, setPhone] = useState("");
+  const [vehicleNumber, setVehicleNumber] = useState("");
 
   useEffect(() => {
     const storedPhone = sessionStorage.getItem("valetos.self-parking.phone");
     if (storedPhone) {
       setPhone(storedPhone);
     }
+
+    const storedVehicleNumber = sessionStorage.getItem("valetos.self-parking.vehicleNumber");
+    if (storedVehicleNumber) {
+      setVehicleNumber(storedVehicleNumber);
+    }
   }, []);
 
   // Parking duration timer
   useEffect(() => {
-    const startTime = SELF_PARKING_DATA.checkInTime.getTime();
+    const startTime = DEFAULT_SELF_PARKING_DATA.checkInTime.getTime();
 
     const updateDuration = () => {
       const now = Date.now();
@@ -93,7 +99,7 @@ export default function SelfParkingStatusPage() {
 
   // Format check-in time
   const formatCheckIn = () => {
-    return SELF_PARKING_DATA.checkInTime.toLocaleTimeString([], {
+    return DEFAULT_SELF_PARKING_DATA.checkInTime.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
@@ -104,7 +110,9 @@ export default function SelfParkingStatusPage() {
     router.push("/verify-self-exit");
   };
 
-  const parkingSlots = generateParkingSlots(SELF_PARKING_DATA.spot);
+  // Use entered vehicle number if available, otherwise use default
+  const displayVehicleNumber = vehicleNumber || DEFAULT_SELF_PARKING_DATA.vehicleNumber;
+  const parkingSlots = generateParkingSlots(DEFAULT_SELF_PARKING_DATA.spot);
 
   return (
     <main className="min-h-screen bg-bg0 flex flex-col">
@@ -148,8 +156,8 @@ export default function SelfParkingStatusPage() {
               className="bg-gradient-to-br from-fg0/20 to-fg0/5 border-2 border-fg0/30 rounded-2xl p-6 text-center"
             >
               <p className="text-sm text-fg0/70 uppercase tracking-wider mb-2">You parked at</p>
-              <h2 className="text-3xl font-bold text-fg0 mb-1">{SELF_PARKING_DATA.floor}</h2>
-              <p className="text-2xl font-bold text-fg0">Parking Spot {SELF_PARKING_DATA.spot}</p>
+              <h2 className="text-3xl font-bold text-fg0 mb-1">{DEFAULT_SELF_PARKING_DATA.floor}</h2>
+              <p className="text-2xl font-bold text-fg0">Parking Spot {DEFAULT_SELF_PARKING_DATA.spot}</p>
             </motion.div>
 
             {/* Parking Duration Timer */}
@@ -183,7 +191,7 @@ export default function SelfParkingStatusPage() {
                   <div key={letter} className="flex gap-1 justify-center">
                     {Array.from({ length: 8 }).map((_, idx) => {
                       const spotId = `${letter}-${idx + 1}`;
-                      const isUserSpot = spotId === SELF_PARKING_DATA.spot;
+                      const isUserSpot = spotId === DEFAULT_SELF_PARKING_DATA.spot;
                       return (
                         <div
                           key={spotId}
@@ -216,17 +224,17 @@ export default function SelfParkingStatusPage() {
               <InfoCard
                 icon={Car}
                 label="Vehicle Number"
-                value={SELF_PARKING_DATA.vehicleNumber}
+                value={displayVehicleNumber}
               />
               <InfoCard
                 icon={Car}
                 label="Vehicle Type"
-                value={SELF_PARKING_DATA.vehicleType}
+                value={DEFAULT_SELF_PARKING_DATA.vehicleType}
               />
               <InfoCard
                 icon={MapPin}
                 label="Location"
-                value={SELF_PARKING_DATA.location}
+                value={DEFAULT_SELF_PARKING_DATA.location}
               />
               <InfoCard
                 icon={Clock}
@@ -244,10 +252,10 @@ export default function SelfParkingStatusPage() {
             {/* Status Badge */}
             <div className="flex justify-center gap-3">
               <span className="px-4 py-2 bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 rounded-full text-sm font-medium">
-                {SELF_PARKING_DATA.status}
+                {DEFAULT_SELF_PARKING_DATA.status}
               </span>
               <span className="px-4 py-2 bg-fg0/10 text-fg0 border border-fg0/20 rounded-full text-sm font-medium">
-                {SELF_PARKING_DATA.session}
+                {DEFAULT_SELF_PARKING_DATA.session}
               </span>
             </div>
 

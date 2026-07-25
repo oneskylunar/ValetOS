@@ -7,6 +7,8 @@ import { fadeUp } from "@/app/lib/motion";
 
 interface QRScannerProps {
   onScan?: (data: string) => void;
+  vehicleNumber?: string;
+  onVehicleNumberRequired?: () => void;
 }
 
 // Allowed routes for ValetOS QR codes
@@ -14,7 +16,7 @@ const ALLOWED_ROUTES = ["/verify", "/verify-self"];
 
 type ScannerState = "idle" | "scanning" | "error";
 
-export default function QRScanner({ onScan }: QRScannerProps) {
+export default function QRScanner({ onScan, vehicleNumber = "", onVehicleNumberRequired }: QRScannerProps) {
   const [state, setState] = useState<ScannerState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showInvalidDialog, setShowInvalidDialog] = useState(false);
@@ -66,6 +68,24 @@ export default function QRScanner({ onScan }: QRScannerProps) {
 
   // Handle successful scan
   const handleValidScan = useCallback((pathname: string) => {
+    // For /verify-self, check if vehicle number is entered
+    if (pathname === "/verify-self") {
+      const trimmedVehicleNumber = vehicleNumber.trim();
+      if (!trimmedVehicleNumber) {
+        // Stop scanning and trigger vehicle number required error
+        isScanningRef.current = false;
+        if (scannerRef.current?.isScanning) {
+          scannerRef.current.stop().catch(console.error);
+        }
+        if (onVehicleNumberRequired) {
+          onVehicleNumberRequired();
+        }
+        return;
+      }
+      // Store vehicle number in session storage for self-parking flow
+      sessionStorage.setItem("valetos.self-parking.vehicleNumber", trimmedVehicleNumber);
+    }
+
     // Stop scanning
     isScanningRef.current = false;
     if (scannerRef.current?.isScanning) {
@@ -83,7 +103,7 @@ export default function QRScanner({ onScan }: QRScannerProps) {
     } else if (pathname === "/verify-self") {
       window.location.href = "/verify-self";
     }
-  }, [onScan]);
+  }, [onScan, vehicleNumber, onVehicleNumberRequired]);
 
   // Handle invalid scan
   const handleInvalidScan = useCallback(() => {

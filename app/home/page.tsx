@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
 import QRScanner from "./QRScanner";
 import { fadeUp, EASE_PREMIUM } from "@/app/lib/motion";
@@ -12,6 +12,7 @@ import { fadeUp, EASE_PREMIUM } from "@/app/lib/motion";
 export default function HomePage() {
   const router = useRouter();
   const [vehicleNumber, setVehicleNumber] = useState("");
+  const [showVehicleRequiredDialog, setShowVehicleRequiredDialog] = useState(false);
 
   const handleExploreMore = () => {
     router.push("/explore");
@@ -31,6 +32,15 @@ export default function HomePage() {
     // For self parking,
     // preserve manually entered vehicle number.
     // (Do nothing - the existing vehicleNumber state remains unchanged)
+  };
+
+  // Handle when vehicle number is required but not entered
+  const handleVehicleNumberRequired = () => {
+    setShowVehicleRequiredDialog(true);
+  };
+
+  const dismissVehicleRequiredDialog = () => {
+    setShowVehicleRequiredDialog(false);
   };
 
   return (
@@ -61,7 +71,11 @@ export default function HomePage() {
       <div className="flex-1 flex flex-col items-center px-6 py-8 md:py-12">
         {/* QR Scanner */}
         <div className="w-full max-w-sm mb-10 md:mb-12">
-          <QRScanner onScan={handleQRScan} />
+          <QRScanner
+            onScan={handleQRScan}
+            vehicleNumber={vehicleNumber}
+            onVehicleNumberRequired={handleVehicleNumberRequired}
+          />
         </div>
 
         {/* Vehicle Number Input */}
@@ -111,6 +125,64 @@ export default function HomePage() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Vehicle Number Required Dialog */}
+      <AnimatePresence>
+        {showVehicleRequiredDialog && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-6"
+            onClick={dismissVehicleRequiredDialog}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Warning Icon */}
+              <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-5">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-8 h-8 text-red-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+              </div>
+
+              {/* Title */}
+              <h2 className="text-xl font-bold text-bg1 mb-2">
+                Vehicle Number Required
+              </h2>
+
+              {/* Message */}
+              <p className="text-sm text-bg1/70 mb-6">
+                Please enter your vehicle number before scanning the self-parking QR.
+              </p>
+
+              {/* Dismiss Button */}
+              <button
+                onClick={dismissVehicleRequiredDialog}
+                className="w-full px-6 py-3 bg-bg1 text-white font-bold rounded-full hover:bg-fg1 transition-all"
+              >
+                OK
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
